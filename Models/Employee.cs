@@ -25,7 +25,7 @@ namespace EmployeeManagementSystem.Models
         public int DepartmentID { get; set; }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         //Navigation Property
         public virtual Department Department { get; set; }
