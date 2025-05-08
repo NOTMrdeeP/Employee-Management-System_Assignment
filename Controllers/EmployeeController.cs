@@ -8,6 +8,7 @@ namespace EmployeeManagementSystem.Controllers
     {
         private readonly EmployeeDbContext _context;
 
+        public EmployeeController() { }
         public EmployeeController(EmployeeDbContext context)
         {
             _context = context;
