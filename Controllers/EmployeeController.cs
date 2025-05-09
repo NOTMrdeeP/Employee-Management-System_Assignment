@@ -19,7 +19,7 @@ namespace EmployeeManagementSystem.Controllers
         }
 
         //GET: Search employees for department and filter by age
-        public async Task<IActionResult> SearchEmployeeByDepartment(string query)
+        public async Task<IActionResult> SearchEmployeesByDepartment(string query)
         {
             var employees = await _context.Employees
                             .Include(e => e.Department)
@@ -29,7 +29,7 @@ namespace EmployeeManagementSystem.Controllers
             return View("Index", employees);
         }
         //GET: Filter employees by certain age
-        public async Task<IActionResult> FilterEmployeesByAge(int age)
+        public async Task<IActionResult> SearchEmployeesByAge(int age)
         {
             var filteredEmployees = await _context.Employees
                                     .Where(e => e.Age == age)
