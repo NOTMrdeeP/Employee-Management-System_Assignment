@@ -40,14 +40,17 @@ namespace EmployeeManagementSystem.Controllers
 
         //POST: Soft Delete employee record
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
 
-            employee.IsActive = false;
-            await _context.SaveChangesAsync();
-
+            if (employee != null)
+            {
+                employee.IsActive = false;
+                await _context.SaveChangesAsync();
+            }
+            else return NotFound();
+            
             return RedirectToAction("Index");
         }
     }//end of class EmployeeController
