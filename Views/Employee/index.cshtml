@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<EmployeeManagementSystem.Models.Product>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,16 +6,9 @@
     <title></title>
 </head>
 <body>
-    <form asp-action="Index" method="get" class="mb-3 row g-3">
-        <div class="col-md-4">
-            <input type="text" name="searchDept" class="form-control" placeholder="Search by Department" />
-        </div>
-        <div class="col-md-3">
-            <input type="number" name="minAge" class="form-control" placeholder="Minimum Age" />
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
+    <form asp-action="SearchEmployeeByDepartment" method="get" class="mb-3 row g-3">
+        <input class="form-control me-2" type="text" name="query" placeholder="Search employees by department" />
+        <button type="submit" class="btn btn-primary mb-3"Search></button>
     </form>
 </body>
 </html>
