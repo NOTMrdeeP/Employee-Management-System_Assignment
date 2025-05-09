@@ -8,42 +8,38 @@ namespace EmployeeManagementSystem.Controllers
     {
         private readonly EmployeeDbContext _context;
 
-        public EmployeeController() { }
         public EmployeeController(EmployeeDbContext context)
         {
             _context = context;
         }
 
-        //Soft Delete
-        [HttpPost,ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int  id)
+        public IActionResult Index()
         {
-            var employee = await _context.Employees.FindAsync(id);
-            employee.IsActive = false;
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return View();
         }
 
-
-        //Search department and filter by age
-        public async Task<IActionResult> Index(string SearchDepart,int? MinAge)
+        //GET: Search employees for department and filter by age
+        public async Task<IActionResult> SearchEmployeeByDepartment(string query)
         {
             var employees = await _context.Employees
                             .Include(e => e.Department)
+                            .Where(e => e.Department.Name.Contains(query))
                             .ToListAsync();
 
-            if(!string.IsNullOrEmpty(SearchDepart))
-            {
-                employees = employees.Where(e =>e.Department.Name == SearchDepart).ToList();
-            }
+            return View("Index", employees);
+        }
 
-            if (MinAge.HasValue)
-            {
-                employees = employees.Where(e=>e.Age > MinAge).ToList();
-            }
+        //POST: Soft Delete employee record
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id);
 
-            return View(employees);
+            employee.IsActive = false;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }//end of class EmployeeController
 }//end of namespace EmployeeManagementSystem.Controllers
