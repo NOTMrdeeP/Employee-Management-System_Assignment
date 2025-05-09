@@ -28,6 +28,15 @@ namespace EmployeeManagementSystem.Controllers
 
             return View("Index", employees);
         }
+        //GET: Filter employees by certain age
+        public async Task<IActionResult> FilterEmployeesByAge(int age)
+        {
+            var filteredEmployees = await _context.Employees
+                                    .Where(e => e.Age == age)
+                                    .ToListAsync();
+            
+            return View("Index", filteredEmployees);
+        }
 
         //POST: Soft Delete employee record
         [HttpPost]
