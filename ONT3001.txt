@@ -1,11 +1,14 @@
 alyssa
     Create Employees
-marcellos
     Create Departments
+marcellos
+    Update Departments
 rohit
     Update Employees
 martin
-    Employee Soft Delete, Search
+    Employee Soft Delete
+    Employee Search
+    Department Search
 amity
     GUI
 
