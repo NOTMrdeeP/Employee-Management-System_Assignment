@@ -8,7 +8,7 @@ namespace EmployeeManagementSystem.Data
     {
         public EmployeeDbContext(DbContextOptions options) : base(options)
         {
-
+        
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace EmployeeManagementSystem.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
 
-
+        
 
     }//end of class EmployeeDbContext
 }//end of namespace EmployeeManagementSystem.Data
