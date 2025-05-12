@@ -44,7 +44,7 @@ namespace EmployeeManagementSystem.Controllers
             return View(department);
         }
         //GET: Edit Department
-        [HttpGet]
+        
         public IActionResult Edit(int? id)
         {
             if (id == null) return NotFound();

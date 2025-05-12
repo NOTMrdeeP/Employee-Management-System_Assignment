@@ -17,7 +17,7 @@ namespace EmployeeManagementSystem.Models
         public string LastName { get; set; } = string.Empty;
 
         [Required]
-        [Range(18,65)]
+        [Range(18, 65)]
         public int Age { get; set; }
 
         [Required]

@@ -42,9 +42,9 @@ namespace EmployeeManagementSystem.Controllers
 
 
         //Soft Delete
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int  id)
+        public async Task<IActionResult> DeleteConfirm(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
             
@@ -59,7 +59,8 @@ namespace EmployeeManagementSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        //Search Department and Filter by age
+
+        //Search department and filter by age
         public async Task<IActionResult> Index(string SearchDepart, int? MinAge)
         {
             
@@ -74,7 +75,7 @@ namespace EmployeeManagementSystem.Controllers
                 query = query.Where(e => e.Department.Name.Contains(SearchDepart));
             }
 
-            // Apply age filter if provided
+            
             if (MinAge.HasValue)
             {
                 query = query.Where(e => e.Age >= MinAge);
