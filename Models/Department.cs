@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagementSystem.Models
 {
@@ -15,7 +13,5 @@ namespace EmployeeManagementSystem.Models
 
         //Navigation Property
         public ICollection<Employee> Employees { get; set; }
-
-        public bool IsActive { get; set; } = true;
     }//end of class Department
 }//end of namespace EmployeeManagementSystem.Models

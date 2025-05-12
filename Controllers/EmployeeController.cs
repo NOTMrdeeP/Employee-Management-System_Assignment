@@ -1,8 +1,6 @@
 ﻿using EmployeeManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using EmployeeManagementSystem.Models;
 
 namespace EmployeeManagementSystem.Controllers
 {
@@ -10,36 +8,11 @@ namespace EmployeeManagementSystem.Controllers
     {
         private readonly EmployeeDbContext _context;
 
-        
+        public EmployeeController() { }
         public EmployeeController(EmployeeDbContext context)
         {
             _context = context;
         }
-
-        //GET: Create Employee
-        public IActionResult Create()
-        {
-            ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name");
-            return View();
-        }
-
-        //POST: Create Employee
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Employee employee)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Employees.Add(employee);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name", employee.DepartmentID);
-            return View(employee);
-        }
-
-
 
         //Soft Delete
         [HttpPost,ActionName("Delete")]
@@ -47,41 +20,29 @@ namespace EmployeeManagementSystem.Controllers
         public async Task<IActionResult> DeleteConfirm(int  id)
         {
             var employee = await _context.Employees.FindAsync(id);
-            
-
-            if (employee != null)
-            {
-                employee.IsActive = false;
-                await _context.SaveChangesAsync();
-            }
-            else return NotFound();
-
+            employee.IsActive = false;
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        //Search Department and Filter by age
-        public async Task<IActionResult> Index(string SearchDepart, int? MinAge)
-        {
-            
-            var query = _context.Employees
-                .Include(e => e.Department)
-                .Where(e => e.IsActive)  // Only shows active employees
-                .AsQueryable();
 
-            
-            if (!string.IsNullOrEmpty(SearchDepart))
+        //Search department and filter by age
+        public async Task<IActionResult> Index(string SearchDepart,int? MinAge)
+        {
+            var employees = await _context.Employees
+                            .Include(e => e.Department)
+                            .ToListAsync();
+
+            if(!string.IsNullOrEmpty(SearchDepart))
             {
-                query = query.Where(e => e.Department.Name.Contains(SearchDepart));
+                employees = employees.Where(e =>e.Department.Name == SearchDepart).ToList();
             }
 
-            // Apply age filter if provided
             if (MinAge.HasValue)
             {
-                query = query.Where(e => e.Age >= MinAge);
+                employees = employees.Where(e=>e.Age > MinAge).ToList();
             }
 
-            // Execute the query and pass results to view
-            var employees = await query.ToListAsync();
             return View(employees);
         }
     }//end of class EmployeeController
