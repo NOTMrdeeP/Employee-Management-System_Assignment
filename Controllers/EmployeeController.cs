@@ -1,6 +1,8 @@
 ﻿using EmployeeManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using EmployeeManagementSystem.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EmployeeManagementSystem.Controllers
 {
@@ -12,6 +14,29 @@ namespace EmployeeManagementSystem.Controllers
         public EmployeeController(EmployeeDbContext context)
         {
             _context = context;
+        }
+
+        //GET: Create Employee
+        public IActionResult Create()
+        {
+            ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name");
+            return View();
+        }
+
+        //POST: Create Employee
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "Name", employee.DepartmentID);
+            return View(employee);
         }
 
         //Soft Delete
