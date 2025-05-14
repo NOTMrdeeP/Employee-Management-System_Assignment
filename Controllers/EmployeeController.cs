@@ -39,36 +39,43 @@ namespace EmployeeManagementSystem.Controllers
             return View(employee);
         }
 
-        //Soft Delete
-        [HttpPost,ActionName("Delete")]
+        //POST: Soft Delete employee record
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int  id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            employee.IsActive = false;
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.EmployeeID == id);
+
+            if (employee != null)
+            {
+                employee.IsActive = false;
+                _context.Employees.Update(employee);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
-
-        //Search department and filter by age
-        public async Task<IActionResult> Index(string SearchDepart,int? MinAge)
+        //GET: Search employees for department and filter by age
+        public async Task<IActionResult> SearchEmployeesByDepartment(string query)
         {
             var employees = await _context.Employees
                             .Include(e => e.Department)
+                            .Where(e => e.Department.Name.Contains(query))
                             .ToListAsync();
 
-            if(!string.IsNullOrEmpty(SearchDepart))
-            {
-                employees = employees.Where(e =>e.Department.Name == SearchDepart).ToList();
-            }
+            return View("Index", employees);
+        }
 
-            if (MinAge.HasValue)
-            {
-                employees = employees.Where(e=>e.Age > MinAge).ToList();
-            }
+        //GET: Filter employees by certain age
+        public async Task<IActionResult> SearchEmployeesByAge(int age)
+        {
+            var filteredEmployees = await _context.Employees
+                                    .Where(e => e.Age == age)
+                                    .ToListAsync();
 
-            return View(employees);
+            return View("Index", filteredEmployees);
         }
     }//end of class EmployeeController
 }//end of namespace EmployeeManagementSystem.Controllers
