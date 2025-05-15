@@ -77,5 +77,44 @@ namespace EmployeeManagementSystem.Controllers
 
             return View("Index", filteredEmployees);
         }
+
+        // GET: Employees/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null) return NotFound();
+
+            // Re-populate ViewBag in case of validation errors
+            ViewBag.Departments = new SelectList(_context.Departments, "ID", "Name", employee.DepartmentID);
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Employee employee)
+        {
+            if (id != employee.EmployeeID)
+                return NotFound();
+
+            try
+            {
+                _context.Update(employee);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Employees.Any(e => e.EmployeeID == id))
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            // Re-populate ViewBag in case of validation errors
+            ViewBag.Departments = new SelectList(_context.Departments, "ID", "Name", employee.DepartmentID);
+            return View(employee);
+        }
     }//end of class EmployeeController
 }//end of namespace EmployeeManagementSystem.Controllers
