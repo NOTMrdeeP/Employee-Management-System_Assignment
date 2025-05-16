@@ -1,20 +1,44 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <form asp-action="Index" method="get" class="mb-3 row g-3">
-        <div class="col-md-4">
-            <input type="text" name="searchDept" class="form-control" placeholder="Search by Department" />
-        </div>
-        <div class="col-md-3">
-            <input type="number" name="minAge" class="form-control" placeholder="Minimum Age" />
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
-</body>
-</html>
+﻿@model IEnumerable<EmployeeManagementSystem.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of all the employees</h1>
+
+<a asp-action="Create">Insert new employee</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            
+            foreach (var employee in Model)
+            {
+                if (employee == null)
+                {
+                    <tr><td colspan="5">Null employee found</td></tr>
+                    continue;
+                }
+                <tr>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.LastName</td>
+                    <td>@employee.Age</td>
+                    <td>@employee.DepartmentID</td>
+                    <td>
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@employee.EmployeeID">Edit</a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@employee.EmployeeID">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

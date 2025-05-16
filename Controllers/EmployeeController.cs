@@ -10,10 +10,17 @@ namespace EmployeeManagementSystem.Controllers
     {
         private readonly EmployeeDbContext _context;
 
-        public EmployeeController() { }
         public EmployeeController(EmployeeDbContext context)
         {
             _context = context;
+        }
+
+        //GET all employee records
+        public async Task<IActionResult> Index()
+        {
+            var employees = await _context.Employees.ToListAsync();
+
+            return View(employees);
         }
 
         //GET: Create Employee
