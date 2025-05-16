@@ -12,10 +12,11 @@ namespace EmployeeManagementSystem.Controllers
         {
             _context = context;
         }
-
-        public IActionResult Index()
+        //GET all department
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var departments = await _context.Departments.ToListAsync();
+            return View(departments);
         }
         //GET:Create Department
         public IActionResult Create()

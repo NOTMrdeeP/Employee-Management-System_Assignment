@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EmployeeManagementSystem.Models.Department>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of all the departments</h1>
+
+<a asp-action="Create">Insert new employee</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+            foreach (var department in Model)
+            {
+                <tr>
+                    <td>@department.Name</td>                    
+                    <td>
+                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@department.DepartmentID">Edit</a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@department.DepartmentID">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
