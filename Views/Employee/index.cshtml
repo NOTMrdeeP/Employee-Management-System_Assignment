@@ -6,6 +6,12 @@
 
 <h1>List of all the employees</h1>
 
+<form asp-action="Search" method="get">
+    <input type="text" name="query" placeholder="Department name" />
+    <input type="number" name="age" placeholder="Age" />
+    <button type="submit" class="btn btn-info">Search</button>
+</form>
+
 <a asp-action="Create">Insert new employee</a>
 
 <table class="table table-striped">
@@ -22,11 +28,6 @@
         @{
             foreach (var employee in Model)
             {
-                if (employee == null)
-                {
-                    <tr><td colspan="5">Null employee found</td></tr>
-                    continue;
-                }
                 <tr>
                     <td>@employee.FirstName</td>
                     <td>@employee.LastName</td>

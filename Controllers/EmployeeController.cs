@@ -64,25 +64,24 @@ namespace EmployeeManagementSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //GET: Search employees for department and filter by age
-        public async Task<IActionResult> SearchEmployeesByDepartment(string query)
+        //GET: Filter employees by department or by age
+        [HttpGet]
+        public async Task<IActionResult> Search(string? query, int? age)
         {
-            var employees = await _context.Employees
-                            .Include(e => e.Department)
-                            .Where(e => e.Department.Name.Contains(query))
-                            .ToListAsync();
+            var employeesQuery = _context.Employees.Include(e => e.Department).AsQueryable();
 
+            if (query != null)
+            {
+                employeesQuery = employeesQuery.Where(e => e.Department.Name.Contains(query));
+            }
+
+            if (age != null)
+            {
+                employeesQuery = employeesQuery.Where(e => e.Age == age.Value);
+            }
+
+            var employees = await employeesQuery.ToListAsync();
             return View("Index", employees);
-        }
-
-        //GET: Filter employees by certain age
-        public async Task<IActionResult> SearchEmployeesByAge(int age)
-        {
-            var filteredEmployees = await _context.Employees
-                                    .Where(e => e.Age == age)
-                                    .ToListAsync();
-
-            return View("Index", filteredEmployees);
         }
 
         // GET: Employees/Edit/5
