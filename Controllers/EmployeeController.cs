@@ -57,7 +57,7 @@ namespace EmployeeManagementSystem.Controllers
             if (employee != null)
             {
                 employee.IsActive = false;
-                _context.Employees.Update(employee);
+                _context.Update(employee);
                 await _context.SaveChangesAsync();
             }
 

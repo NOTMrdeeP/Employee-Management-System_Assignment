@@ -20,7 +20,6 @@
     </thead>
     <tbody>
         @{
-            
             foreach (var employee in Model)
             {
                 if (employee == null)
@@ -35,7 +34,11 @@
                     <td>@employee.DepartmentID</td>
                     <td>
                         <a asp-action="Edit" class="btn btn-primary" asp-route-id="@employee.EmployeeID">Edit</a>
-                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@employee.EmployeeID">Delete</a>
+                        <form asp-action="Delete" asp-route-id="@employee.EmployeeID" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this Employee record?')">
+                                Delete
+                            </button>
+                        </form>
                     </td>
                 </tr>
             }
