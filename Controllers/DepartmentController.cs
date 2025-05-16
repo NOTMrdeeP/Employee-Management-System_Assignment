@@ -1,7 +1,8 @@
-﻿using EmployeeManagementSystem.Models;
+﻿using EmployeeManagementSystem.Data;
+using EmployeeManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EmployeeManagementSystem.Data;
 
 namespace EmployeeManagementSystem.Controllers
 {
@@ -37,6 +38,44 @@ namespace EmployeeManagementSystem.Controllers
             }
             return View(department);
         }
+
+        //GET:Edit Department
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var department = await _context.Departments.FindAsync(id);
+            if (department == null) return NotFound();
+
+            ViewBag.EmployeeList = new SelectList(_context.Employees, "EmployeeID", "FirstName", department.Employees);
+            return View(department);
+        }
+
+        //POST: Edit Department
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Department department)
+        {
+            if (id != department.DepartmentID) return NotFound();
+
+            try
+            {
+                _context.Update(department);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Departments.Any(d => d.DepartmentID == id))
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            ViewBag.EmployeeList = new SelectList(_context.Employees, "EmployeeID", "FirstName", department.Employees);
+            return View(department);
+        }
+
 
         public IActionResult Details()
         {
