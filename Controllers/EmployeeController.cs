@@ -18,7 +18,9 @@ namespace EmployeeManagementSystem.Controllers
         //GET all employee records
         public async Task<IActionResult> Index()
         {
-            var employees = await _context.Employees.ToListAsync();
+            var employees = await _context.Employees
+                .Include(e => e.Department)
+                .ToListAsync();
 
             return View(employees);
         }

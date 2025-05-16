@@ -32,7 +32,7 @@
                     <td>@employee.FirstName</td>
                     <td>@employee.LastName</td>
                     <td>@employee.Age</td>
-                    <td>@employee.DepartmentID</td>
+                    <td>@employee.Department.Name</td>
                     <td>
                         <a asp-action="Edit" class="btn btn-primary" asp-route-id="@employee.EmployeeID">Edit</a>
                         <form asp-action="Delete" asp-route-id="@employee.EmployeeID" method="post" style="display:inline;">
