@@ -94,7 +94,7 @@ namespace EmployeeManagementSystem.Controllers
             if (employee == null) return NotFound();
 
             // Re-populate ViewBag in case of validation errors
-            ViewBag.Departments = new SelectList(_context.Departments, "ID", "Name", employee.DepartmentID);
+            ViewBag.DepartmentList = new SelectList(_context.Departments, "DepartmentID", "Name", employee.DepartmentID);
             return View(employee);
         }
 
@@ -120,7 +120,7 @@ namespace EmployeeManagementSystem.Controllers
             }
 
             // Re-populate ViewBag in case of validation errors
-            ViewBag.Departments = new SelectList(_context.Departments, "ID", "Name", employee.DepartmentID);
+            ViewBag.DepartmentList = new SelectList(_context.Departments, "DepartmentID", "Name", employee.DepartmentID);
             return View(employee);
         }
     }//end of class EmployeeController
