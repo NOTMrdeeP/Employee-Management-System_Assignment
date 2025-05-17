@@ -101,7 +101,9 @@ namespace EmployeeManagementSystem.Controllers
         {
             if (id == null) return NotFound();
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(e => e.EmployeeID == id);
             if (employee == null) return NotFound();
 
             // Re-populate ViewBag in case of validation errors
