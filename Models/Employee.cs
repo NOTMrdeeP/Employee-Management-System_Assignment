@@ -1,4 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Rohit Aroonslam (s227876075)
+// Amity Brown (s227649087)
+// Alyssa Damons (s219344892)
+// Martin Du Preez (s227147030)
+// Marcellos Von Buchenroder (s228139759)
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeManagementSystem.Models

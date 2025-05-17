@@ -1,4 +1,10 @@
-﻿using EmployeeManagementSystem.Data;
+﻿// Rohit Aroonslam (s227876075)
+// Amity Brown (s227649087)
+// Alyssa Damons (s219344892)
+// Martin Du Preez (s227147030)
+// Marcellos Von Buchenroder (s228139759)
+
+using EmployeeManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using EmployeeManagementSystem.Models;
