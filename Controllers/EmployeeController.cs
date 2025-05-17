@@ -33,7 +33,7 @@ namespace EmployeeManagementSystem.Controllers
                 .IgnoreQueryFilters()
                 .ToListAsync();
 
-            return View(employees);
+            return View(nameof(Index), employees);
         }
 
         //GET: Create Employee
