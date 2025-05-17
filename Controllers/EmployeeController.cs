@@ -15,11 +15,22 @@ namespace EmployeeManagementSystem.Controllers
             _context = context;
         }
 
-        //GET all employee records
+        //GET all active employee records
         public async Task<IActionResult> Index()
         {
             var employees = await _context.Employees
                 .Include(e => e.Department)
+                .ToListAsync();
+
+            return View(employees);
+        }
+
+        //GET all employee records(active and inactive)
+        public async Task<IActionResult> IndexAll()
+        {
+            var employees = await _context.Employees
+                .Include(e => e.Department)
+                .IgnoreQueryFilters()
                 .ToListAsync();
 
             return View(employees);
